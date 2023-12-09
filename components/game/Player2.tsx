@@ -1,17 +1,16 @@
-import React, { ChangeEvent, ReactEventHandler } from 'react';
+import React from 'react';
 import {
   useContractWrite,
   usePrepareContractWrite,
   useWaitForTransaction,
 } from 'wagmi';
-
-import { moves } from '@/utils/moves';
-import RPSAbi from '@/contracts/RPS.json';
+import abi from '@/contracts/abi.json';
 import Loader from '../Loader';
-import { GameState } from '@/types';
+import { moves } from '@/utils/moves';
 import getTimeLeft from '@/utils/getTimeLeft';
-import ContractCallButton from '../ContractCallButton';
 import ExplorerLink from '../ExplorerLink';
+import ContractCallButton from '../ContractCallButton';
+import { GameState } from '@/types';
 
 type Player2 = {
   gameContract: `0x${string}`;
@@ -65,10 +64,9 @@ const Player2: React.FC<Player2> = ({
     confirmations: 1,
   });
 
-  // play move contract call
   const { config } = usePrepareContractWrite({
     address: move ? gameContract : undefined,
-    abi: RPSAbi,
+    abi,
     functionName: 'play',
     args: [move],
     value: stake,
@@ -88,11 +86,10 @@ const Player2: React.FC<Player2> = ({
       setWaitForPlayTxHash(data?.hash);
     },
   });
-
-  // claim stake contract call
+  
   const { config: claimStakeConfig } = usePrepareContractWrite({
     address: gameState.canPlayer2ClaimStake ? gameContract : undefined,
-    abi: RPSAbi,
+    abi,
     functionName: 'j1Timeout',
     onError(error) {
       alert((error.cause as any)?.shortMessage ?? error.message);

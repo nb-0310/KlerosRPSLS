@@ -11,8 +11,8 @@ import { encodePacked, formatEther, keccak256, parseEther, toHex } from 'viem';
 
 import Button from '@/components/Button';
 import ConnectWalletButton from '@/components/ConnectWalletButton';
-import RPSAbi from '@/contracts/RPS.json';
-import bytecode from '@/contracts/RPS-bytecode';
+import abi from '@/contracts/abi.json';
+import bytecode from '@/contracts/bytecode';
 import SwitchNetworkButton from '@/components/SwitchNetworkButton';
 import { useRouter } from 'next/navigation';
 import Loader from '@/components/Loader';
@@ -80,7 +80,7 @@ function CreatePage() {
     );
 
     const txHash = await walletClient?.deployContract({
-      abi: RPSAbi,
+      abi,
       account: address,
       args: [hash, player2],
       bytecode,

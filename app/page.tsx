@@ -2,7 +2,7 @@ import CreateGameButton from '@/components/CreateGameButton';
 
 export default function Home() {
   return (
-    <main className="flex h-[70vh] flex-col px-72 justify-center items-start gap-3">
+    <main className="flex lg:h-[70vh] flex-col lg:px-72 md:px-60 sm:px20 px-4 justify-center items-start gap-3">
       <h1 className="text-4xl font-black">
         Embark on an Ethereum-Powered Rock Paper Scissors Adventure
       </h1>

@@ -3,7 +3,7 @@
 import React from 'react';
 import { useContractReads } from 'wagmi';
 
-import RPSAbi from '@/contracts/RPS.json';
+import abi from '@/contracts/abi.json';
 import GameLoading from '@/components/game/GameLoading';
 import GameDisplay from '@/components/game/GameDisplay';
 
@@ -19,7 +19,7 @@ const GamePage = ({ params }: { params: { contractAddress: string } }) => {
     abi: any;
   } = {
     address: params.contractAddress as `0x${string}`,
-    abi: RPSAbi,
+    abi,
   };
 
   const { data, isError, isLoading, isSuccess, refetch } = useContractReads({

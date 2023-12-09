@@ -1,14 +1,13 @@
 import React from 'react';
 import { useAccount } from 'wagmi';
 import { formatEther } from 'viem';
-
-import { ContractReadResponse, GameState } from '@/types';
 import ExplorerLink from '../ExplorerLink';
-import ConnectWalletButton from '../ConnectWalletButton';
+import getTimeLeft from '@/utils/getTimeLeft'
 import getGameStatusText from '@/utils/getGameStatusText';
 import Player1 from './Player1';
 import Player2 from './Player2';
-import getTimeLeft from '@/utils/getTimeLeft';
+import ConnectWalletButton from '../ConnectWalletButton';
+import { ContractReadResponse, GameState } from '@/types';
 
 type GameDisplayProps = {
   gameData: Array<ContractReadResponse>;
@@ -68,13 +67,7 @@ const GameDisplay: React.FC<GameDisplayProps> = ({
 
   const getStakedAmountText = () => {
     const stakeAmount = formatEther(BigInt(stake?.result as number)).toString();
-    if (!isCurrentUserPlayer1 && !isCurrentUserPlayer2) {
-      return `${stakeAmount} ETH at stake`;
-    } else if (isCurrentUserPlayer1) {
-      return `${stakeAmount} ETH staked by you`;
-    } else if (isCurrentUserPlayer2) {
-      return `${stakeAmount} ETH stake required to play`;
-    }
+    return `${stakeAmount} ETH`
   };
 
   return (

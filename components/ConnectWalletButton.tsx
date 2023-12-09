@@ -3,7 +3,6 @@
 import { useAccount, useConnect, useBalance, useNetwork } from 'wagmi';
 import { InjectedConnector } from 'wagmi/connectors/injected';
 import Button from './Button';
-import { useEffect } from 'react';
 
 const ConnectWalletButton: React.FC = () => {
   const { address, isConnected } = useAccount();

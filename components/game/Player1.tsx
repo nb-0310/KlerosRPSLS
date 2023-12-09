@@ -4,14 +4,13 @@ import {
   usePrepareContractWrite,
   useWaitForTransaction,
 } from 'wagmi';
-
+import abi from '@/contracts/abi.json';
 import { moves } from '@/utils/moves';
-import RPSAbi from '@/contracts/RPS.json';
-import Loader from '../Loader';
-import { GameState } from '@/types';
 import getTimeLeft from '@/utils/getTimeLeft';
+import Loader from '../Loader';
 import ContractCallButton from '../ContractCallButton';
 import ExplorerLink from '../ExplorerLink';
+import { GameState } from '@/types';
 
 type Player1 = {
   gameContract: `0x${string}`;
@@ -79,10 +78,9 @@ const Player1: React.FC<Player1> = ({
     return null;
   }, [gameContract]);
 
-  // reveal move contract call
   const { config: revealMoveConfig } = usePrepareContractWrite({
     address: gameState.hasPlayer2Moved ? gameContract : undefined,
-    abi: RPSAbi,
+    abi,
     functionName: 'solve',
     args: [
       moves.indexOf(getPlayer1Move() as string) + 1,
@@ -106,10 +104,9 @@ const Player1: React.FC<Player1> = ({
     },
   });
 
-  // claim stake contract call
   const { config } = usePrepareContractWrite({
     address: gameState.canPlayer1ClaimStake ? gameContract : undefined,
-    abi: RPSAbi,
+    abi,
     functionName: 'j2Timeout',
     onError(error) {
       alert((error.cause as any)?.shortMessage ?? error.message);

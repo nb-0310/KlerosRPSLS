@@ -2,7 +2,7 @@
 
 import ConnectWalletButton from '@/components/ConnectWalletButton';
 import Link from 'next/link';
-import { sepolia, useAccount, useNetwork, useSwitchNetwork } from 'wagmi';
+import { sepolia, useAccount, useNetwork } from 'wagmi';
 import SwitchNetworkButton from './SwitchNetworkButton';
 
 const CreateGameButton = () => {
