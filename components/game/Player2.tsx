@@ -5,15 +5,15 @@ import {
   useWaitForTransaction,
 } from 'wagmi';
 
-import { moves } from '@/utils/constants';
+import { moves } from '@/utils/moves';
 import RPSAbi from '@/contracts/RPS.json';
-import Spinner from '../common/Spinner';
+import Loader from '../Loader';
 import { GameState } from '@/types';
 import getTimeLeft from '@/utils/getTimeLeft';
-import ContractCallButton from '../common/ContractCallButton';
-import ExplorerLink from '../common/ExplorerLink';
+import ContractCallButton from '../ContractCallButton';
+import ExplorerLink from '../ExplorerLink';
 
-type Player2GameDisplay = {
+type Player2 = {
   gameContract: `0x${string}`;
   player2Move: number;
   timeout: number;
@@ -24,7 +24,7 @@ type Player2GameDisplay = {
   player1: string;
 };
 
-const Player2GameDisplay: React.FC<Player2GameDisplay> = ({
+const Player2: React.FC<Player2> = ({
   gameContract,
   player2Move,
   timeout,
@@ -44,7 +44,7 @@ const Player2GameDisplay: React.FC<Player2GameDisplay> = ({
   console.log(gameState);
 
   const [move, setMove] = React.useState<number>();
-  const [showSpinner, setShowSpinner] = React.useState(false);
+  const [showLoader, setShowLoader] = React.useState(false);
   const [timeLeft, setTimeLeft] = React.useState(
     getTimeLeft(timeout, lastAction)
   );
@@ -74,7 +74,7 @@ const Player2GameDisplay: React.FC<Player2GameDisplay> = ({
     value: stake,
     onError(error) {
       alert((error.cause as any)?.shortMessage ?? error.message);
-      setShowSpinner(false);
+      setShowLoader(false);
     },
   });
   const { write } = useContractWrite({
@@ -82,7 +82,7 @@ const Player2GameDisplay: React.FC<Player2GameDisplay> = ({
     onSettled(data, error) {
       if (error) {
         alert((error.cause as any)?.shortMessage ?? error.message);
-        setShowSpinner(false);
+        setShowLoader(false);
         return;
       }
       setWaitForPlayTxHash(data?.hash);
@@ -96,7 +96,7 @@ const Player2GameDisplay: React.FC<Player2GameDisplay> = ({
     functionName: 'j1Timeout',
     onError(error) {
       alert((error.cause as any)?.shortMessage ?? error.message);
-      setShowSpinner(false);
+      setShowLoader(false);
     },
   });
 
@@ -105,7 +105,7 @@ const Player2GameDisplay: React.FC<Player2GameDisplay> = ({
     onSettled(data, error) {
       if (error) {
         alert((error.cause as any)?.shortMessage ?? error.message);
-        setShowSpinner(false);
+        setShowLoader(false);
         return;
       }
       setWaitForClaimTxHash(data?.hash);
@@ -115,7 +115,7 @@ const Player2GameDisplay: React.FC<Player2GameDisplay> = ({
   React.useEffect(() => {
     if (waitForPlayTxData || waitForClaimTxData) {
       refetch();
-      setShowSpinner(false);
+      setShowLoader(false);
     }
   }, [waitForPlayTxData, refetch, waitForClaimTxData]);
 
@@ -129,12 +129,12 @@ const Player2GameDisplay: React.FC<Player2GameDisplay> = ({
   }, [timeLeft, timeout, lastAction]);
 
   const handleSubmit = React.useCallback(async () => {
-    setShowSpinner(true);
+    setShowLoader(true);
     await write?.();
   }, [write]);
 
   const handleClaimStake = React.useCallback(async () => {
-    setShowSpinner(true);
+    setShowLoader(true);
     await claimStake?.();
   }, [claimStake]);
 
@@ -158,7 +158,7 @@ const Player2GameDisplay: React.FC<Player2GameDisplay> = ({
       {!hasPlayer2Moved && (
         <div>
           <span>Time left for player 2: </span>
-          <p>
+          <p className='text-red-800 font-semibold'>
             {timeLeft > 0 ? (
               `${Math.floor(timeLeft / 1000 / 60)}:${
                 Math.floor(timeLeft / 1000) % 60
@@ -176,7 +176,7 @@ const Player2GameDisplay: React.FC<Player2GameDisplay> = ({
       {hasPlayer2Moved && !hasPlayer1Revealed && (
         <div>
           <span>Time left for player 1 to reveal move: </span>
-          <span>
+          <span className='text-red-800 font-semibold'>
             {timeLeft > 0 ? (
               `${Math.floor(timeLeft / 1000 / 60)}:${
                 Math.floor(timeLeft / 1000) % 60
@@ -186,10 +186,10 @@ const Player2GameDisplay: React.FC<Player2GameDisplay> = ({
                 <span>Time is up!</span>
                 {canPlayer2ClaimStake && (
                   <ContractCallButton
-                    disabled={!canPlayer2ClaimStake || showSpinner}
+                    disabled={!canPlayer2ClaimStake || showLoader}
                     onClick={handleClaimStake}
                   >
-                    {showSpinner ? <Spinner /> : 'Claim Stake'}
+                    {showLoader ? <Loader /> : 'Claim Stake'}
                   </ContractCallButton>
                 )}
               </div>
@@ -232,14 +232,14 @@ const Player2GameDisplay: React.FC<Player2GameDisplay> = ({
               <ContractCallButton
                 onClick={() => handleSubmit()}
                 className="mt-3"
-                disabled={showSpinner}
+                disabled={showLoader}
               >
-                {showSpinner ? <Spinner /> : 'Submit Move'}
+                {showLoader ? <Loader /> : 'Submit Move'}
               </ContractCallButton>
             </>
           ) : (
             <>
-              <span className="font-light">Your move: </span>
+              <span className='font-semibold'>Your move: </span>
               <span className="text-blue-700 bg-white px-2 py-1 rounded-lg mx-2 font-semibold">
                 {moves[player2Move - 1]}
               </span>
@@ -251,4 +251,4 @@ const Player2GameDisplay: React.FC<Player2GameDisplay> = ({
   );
 };
 
-export default Player2GameDisplay;
+export default Player2;

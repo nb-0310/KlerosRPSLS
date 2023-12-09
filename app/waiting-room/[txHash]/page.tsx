@@ -1,8 +1,8 @@
 'use client';
 
-import Button from '@/components/common/Button';
-import ExplorerLink from '@/components/common/ExplorerLink';
-import Spinner from '@/components/common/Spinner';
+import Button from '@/components/Button';
+import ExplorerLink from '@/components/ExplorerLink';
+import Loader from '@/components/Loader';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { useWaitForTransaction } from 'wagmi';
@@ -51,9 +51,9 @@ const WaitingPage = ({ params }: { params: { txHash: string } }) => {
     return (
       <div className="flex flex-col items-center justify-center h-[70vh] w-full gap-2 pt-20">
         <h2 className="">
-          Waiting for transaction confirmation...
+          Please Wait...
         </h2>
-        <Spinner />
+        <Loader />
       </div>
     );
   } else if (isSuccess && data) {

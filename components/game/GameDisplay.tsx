@@ -3,11 +3,11 @@ import { useAccount } from 'wagmi';
 import { formatEther } from 'viem';
 
 import { ContractReadResponse, GameState } from '@/types';
-import ExplorerLink from '../common/ExplorerLink';
-import ConnectWalletButton from '../common/ConnectWalletButton';
+import ExplorerLink from '../ExplorerLink';
+import ConnectWalletButton from '../ConnectWalletButton';
 import getGameStatusText from '@/utils/getGameStatusText';
-import Player1GameDisplay from './Player1GameDisplay';
-import Player2GameDisplay from './Player2GameDisplay';
+import Player1 from './Player1';
+import Player2 from './Player2';
 import getTimeLeft from '@/utils/getTimeLeft';
 
 type GameDisplayProps = {
@@ -109,7 +109,7 @@ const GameDisplay: React.FC<GameDisplayProps> = ({
         </div>
       )}
       {isCurrentUserPlayer1 && (
-        <Player1GameDisplay
+        <Player1
           gameContract={gameContract}
           player2Move={player2Move.result as number}
           timeout={timeout.result as number}
@@ -120,7 +120,7 @@ const GameDisplay: React.FC<GameDisplayProps> = ({
         />
       )}
       {isCurrentUserPlayer2 && (
-        <Player2GameDisplay
+        <Player2
           gameContract={gameContract}
           player2Move={player2Move.result as number}
           timeout={timeout.result as number}

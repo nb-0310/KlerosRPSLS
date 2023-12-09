@@ -1,9 +1,9 @@
 'use client';
 
-import ConnectWalletButton from '@/components/common/ConnectWalletButton';
+import ConnectWalletButton from '@/components/ConnectWalletButton';
 import Link from 'next/link';
 import { sepolia, useAccount, useNetwork, useSwitchNetwork } from 'wagmi';
-import SwitchNetworkButton from '../common/SwitchNetworkButton';
+import SwitchNetworkButton from './SwitchNetworkButton';
 
 const CreateGameButton = () => {
   const { isConnected } = useAccount();

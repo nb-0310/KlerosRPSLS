@@ -12,19 +12,19 @@ const getGameStatusText = (gameState: GameState) => {
   } = gameState;
 
   if (!hasGameTimedOut && !hasPlayer2Moved) {
-    return 'Waiting for player 2 to make a move...';
+    return 'Waiting for Player2 to make his move...';
   } else if (!hasGameTimedOut && hasPlayer2Moved && !hasPlayer1Revealed) {
-    return 'Waiting for player 1 to reveal their move...';
+    return 'Waiting for player1 to reveal his move...';
   } else if (canPlayer1ClaimStake) {
-    return 'Game Timed Out. Player 1 can claim stake.';
+    return 'Time up. Player 1 can claim stake.';
   } else if (canPlayer2ClaimStake) {
-    return 'Game Timed Out. Player 2 can claim stake.';
+    return 'Time up. Player 2 can claim stake.';
   } else if (hasPlayer1ClaimedStake) {
     return 'Game Timed Out';
   } else if (hasPlayer2ClaimedStake) {
     return 'Game Timed Out. Player 2 has claimed stake.';
   } else if (hasPlayer2Moved && hasPlayer1Revealed) {
-    return 'Game Settled';
+    return 'Game Complete';
   }
 };
 

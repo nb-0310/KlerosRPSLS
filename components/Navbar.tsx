@@ -1,5 +1,5 @@
 import React from 'react';
-import ConnectWalletButton from '../common/ConnectWalletButton';
+import ConnectWalletButton from './ConnectWalletButton';
 import Link from 'next/link';
 
 const Navbar: React.FC = () => {

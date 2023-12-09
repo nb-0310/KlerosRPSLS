@@ -60,11 +60,11 @@ const GamePage = ({ params }: { params: { contractAddress: string } }) => {
   }
 
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-[70vh]">
       {isLoading && <GameLoading />}
       {isError && (
         <h1 className="text-red-500">
-          There was an error loading the game. Please try again!
+          There was an error. Please try again!
         </h1>
       )}
       {isSuccess && data && (

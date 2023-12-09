@@ -5,15 +5,15 @@ import {
   useWaitForTransaction,
 } from 'wagmi';
 
-import { moves } from '@/utils/constants';
+import { moves } from '@/utils/moves';
 import RPSAbi from '@/contracts/RPS.json';
-import Spinner from '../common/Spinner';
+import Loader from '../Loader';
 import { GameState } from '@/types';
 import getTimeLeft from '@/utils/getTimeLeft';
-import ContractCallButton from '../common/ContractCallButton';
-import ExplorerLink from '../common/ExplorerLink';
+import ContractCallButton from '../ContractCallButton';
+import ExplorerLink from '../ExplorerLink';
 
-type Player1GameDisplay = {
+type Player1 = {
   gameContract: `0x${string}`;
   player2Move: number;
   timeout: number;
@@ -23,7 +23,7 @@ type Player1GameDisplay = {
   player2: string;
 };
 
-const Player1GameDisplay: React.FC<Player1GameDisplay> = ({
+const Player1: React.FC<Player1> = ({
   gameContract,
   player2Move,
   timeout,
@@ -40,7 +40,7 @@ const Player1GameDisplay: React.FC<Player1GameDisplay> = ({
     canPlayer1ClaimStake,
   } = gameState;
 
-  const [showSpinner, setShowSpinner] = React.useState(false);
+  const [showLoader, setShowLoader] = React.useState(false);
   const [timeLeft, setTimeLeft] = React.useState(
     getTimeLeft(timeout, lastAction)
   );
@@ -90,7 +90,7 @@ const Player1GameDisplay: React.FC<Player1GameDisplay> = ({
     ],
     onError(error) {
       alert((error.cause as any)?.shortMessage ?? error.message);
-      setShowSpinner(false);
+      setShowLoader(false);
     },
   });
 
@@ -99,7 +99,7 @@ const Player1GameDisplay: React.FC<Player1GameDisplay> = ({
     onSettled(data, error) {
       if (error) {
         alert((error.cause as any)?.shortMessage ?? error.message);
-        setShowSpinner(false);
+        setShowLoader(false);
         return;
       }
       setWaitForSolveTxHash(data?.hash);
@@ -113,7 +113,7 @@ const Player1GameDisplay: React.FC<Player1GameDisplay> = ({
     functionName: 'j2Timeout',
     onError(error) {
       alert((error.cause as any)?.shortMessage ?? error.message);
-      setShowSpinner(false);
+      setShowLoader(false);
     },
   });
 
@@ -122,7 +122,7 @@ const Player1GameDisplay: React.FC<Player1GameDisplay> = ({
     onSettled(data, error) {
       if (error) {
         alert((error.cause as any)?.shortMessage ?? error.message);
-        setShowSpinner(false);
+        setShowLoader(false);
         return;
       }
       setWaitForClaimTxHash(data?.hash);
@@ -132,7 +132,7 @@ const Player1GameDisplay: React.FC<Player1GameDisplay> = ({
   React.useEffect(() => {
     if (waitForSolveTxData || waitForClaimTxData) {
       refetch();
-      setShowSpinner(false);
+      setShowLoader(false);
     }
   }, [waitForSolveTxData, refetch, waitForClaimTxData]);
 
@@ -146,12 +146,12 @@ const Player1GameDisplay: React.FC<Player1GameDisplay> = ({
   }, [timeLeft, timeout, lastAction]);
 
   const handleClaimStake = React.useCallback(async () => {
-    setShowSpinner(true);
+    setShowLoader(true);
     await claimStake?.();
   }, [claimStake]);
 
   const handleRevealMove = React.useCallback(async () => {
-    setShowSpinner(true);
+    setShowLoader(true);
     await revealMove?.();
   }, [revealMove]);
 
@@ -168,7 +168,7 @@ const Player1GameDisplay: React.FC<Player1GameDisplay> = ({
       </div>
       {(!hasGameTimedOut || hasPlayer1Revealed) && (
         <div>
-          <span className="font-semibold">Player 2&apos;s move: </span>
+          <span className="font-semibold">Opponent&apos;s move: </span>
           <span className='text-blue-700 bg-white px-2 py-1 rounded-lg mx-2 font-semibold'>
             {Boolean(player2Move)
               ? moves[player2Move - 1]
@@ -179,7 +179,7 @@ const Player1GameDisplay: React.FC<Player1GameDisplay> = ({
 
       {!hasPlayer2Moved && (
         <div>
-          <span>Time left for player 2: </span>
+          <span>Time left for opponent: </span>
           <span className='text-red-800 font-semibold'>
             {timeLeft > 0 ? (
               `${Math.floor(timeLeft / 1000 / 60)}:${
@@ -190,10 +190,10 @@ const Player1GameDisplay: React.FC<Player1GameDisplay> = ({
                 <span>Time is up!</span>
                 {canPlayer1ClaimStake && (
                   <ContractCallButton
-                    disabled={!canPlayer1ClaimStake || showSpinner}
+                    disabled={!canPlayer1ClaimStake || showLoader}
                     onClick={handleClaimStake}
                   >
-                    {showSpinner ? <Spinner /> : 'Claim Stake'}
+                    {showLoader ? <Loader /> : 'Claim Stake'}
                   </ContractCallButton>
                 )}
               </div>
@@ -210,7 +210,7 @@ const Player1GameDisplay: React.FC<Player1GameDisplay> = ({
         <>
           <div>
             <span>Time left to reveal: </span>
-            <span>
+            <span className='text-red-800 font-semibold'>
               {timeLeft > 0 ? (
                 `${Math.floor(timeLeft / 1000 / 60)}:${
                   Math.floor(timeLeft / 1000) % 60
@@ -232,9 +232,9 @@ const Player1GameDisplay: React.FC<Player1GameDisplay> = ({
               <ContractCallButton
                 onClick={() => handleRevealMove()}
                 className="mx-auto"
-                disabled={showSpinner}
+                disabled={showLoader}
               >
-                {showSpinner ? <Spinner /> : 'Reveal Move'}
+                {showLoader ? <Loader /> : 'Reveal Move'}
               </ContractCallButton>
             </div>
           )}
@@ -244,4 +244,4 @@ const Player1GameDisplay: React.FC<Player1GameDisplay> = ({
   );
 };
 
-export default Player1GameDisplay;
+export default Player1;

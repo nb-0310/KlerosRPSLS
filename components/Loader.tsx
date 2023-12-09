@@ -1,8 +1,8 @@
-type SpinnerProps = {
+type LoaderProps = {
   className?: string;
 };
 
-const Spinner: React.FC<SpinnerProps> = ({ className = '' }) => {
+const Loader: React.FC<LoaderProps> = ({ className = '' }) => {
   return (
     <svg
       className={`animate-spin h-5 w-5 ${className}`}
@@ -26,4 +26,4 @@ const Spinner: React.FC<SpinnerProps> = ({ className = '' }) => {
   );
 };
 
-export default Spinner;
+export default Loader;

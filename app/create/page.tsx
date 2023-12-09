@@ -9,14 +9,14 @@ import {
 } from 'wagmi';
 import { encodePacked, formatEther, keccak256, parseEther, toHex } from 'viem';
 
-import Button from '@/components/common/Button';
-import ConnectWalletButton from '@/components/common/ConnectWalletButton';
+import Button from '@/components/Button';
+import ConnectWalletButton from '@/components/ConnectWalletButton';
 import RPSAbi from '@/contracts/RPS.json';
 import bytecode from '@/contracts/RPS-bytecode';
-import SwitchNetworkButton from '@/components/common/SwitchNetworkButton';
+import SwitchNetworkButton from '@/components/SwitchNetworkButton';
 import { useRouter } from 'next/navigation';
-import Spinner from '@/components/common/Spinner';
-import { moves } from '@/utils/constants';
+import Loader from '@/components/Loader';
+import { moves } from '@/utils/moves';
 import generateSalt from '@/utils/generateSalt';
 
 function CreatePage() {
@@ -169,7 +169,7 @@ function CreatePage() {
         </select>
       </div>
       <button type="submit" disabled={isSubmitting} className='bg-white disabled:bg-opacity-20 disabled:text-white/60 disabled:cursor-not-allowed text-blue-700 text-base py-2 px-4 rounded-lg'>
-        {isSubmitting ? <Spinner /> : 'Start Game'}
+        {isSubmitting ? <Loader /> : 'Start Game'}
       </button>
     </form>
   );
