@@ -9,13 +9,13 @@ import Player2 from './Player2';
 import ConnectWalletButton from '../ConnectWalletButton';
 import { ContractReadResponse, GameState } from '@/types';
 
-type GameDisplayProps = {
+type Game = {
   gameData: Array<ContractReadResponse>;
   gameContract: `0x${string}`;
   refetch: () => void;
 };
 
-const GameDisplay: React.FC<GameDisplayProps> = ({
+const Game: React.FC<Game> = ({
   gameData,
   gameContract,
   refetch,
@@ -128,4 +128,4 @@ const GameDisplay: React.FC<GameDisplayProps> = ({
   );
 };
 
-export default GameDisplay;
+export default Game;

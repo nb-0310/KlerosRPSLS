@@ -4,8 +4,8 @@ import React from 'react';
 import { useContractReads } from 'wagmi';
 
 import abi from '@/contracts/abi.json';
-import GameLoading from '@/components/game/GameLoading';
-import GameDisplay from '@/components/game/GameDisplay';
+import Loading from '@/components/game/Loading';
+import Game from '@/components/game/Game';
 
 const GamePage = ({ params }: { params: { contractAddress: string } }) => {
   const [isClient, setIsClient] = React.useState(false);
@@ -60,15 +60,15 @@ const GamePage = ({ params }: { params: { contractAddress: string } }) => {
   }
 
   return (
-    <div className="w-full h-[70vh]">
-      {isLoading && <GameLoading />}
+    <div className="w-full">
+      {isLoading && <Loading />}
       {isError && (
         <h1 className="text-red-500">
           There was an error. Please try again!
         </h1>
       )}
       {isSuccess && data && (
-        <GameDisplay
+        <Game
           gameData={data}
           gameContract={params.contractAddress as `0x${string}`}
           refetch={refetch}
