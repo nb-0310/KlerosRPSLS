@@ -1,35 +1,17 @@
-# Rock Paper Scissor Lizard Spock
+## Rock Paper Scissors Lizard Spock - Kleros Exercise 1
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+#### Live Demo Link:- https://etherclash.vercel.app/
+#### Github Link:- https://github.com/nb-0310/etherclash
 
-## Installation and Starting
-
-```bash
-npm install
-```
-
-Create a `.env.local` file and add the environment variable `NEXT_PUBLIC_ALCHEMY_API_KEY` with it's value as the Alchemy API key.
-
-and then
-
-```bash
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-### Testnet used: Sepolia
+## Overview
+- Parties can create a game, commit moves, select opponents, and stake ETH.
+- Second parties join by paying the same amount of ETH and making their move.
+- The contract handles move reveals, distributing ETH to the winner or splitting in case of a tie.
+- Measures are in place to handle unresponsive parties.
+- Sepolia Testnet used for testing purposes.
 
 ## Mixed Strategy Nash Equilibrium
 
-For this game, the payoff matrix would be:
-![Payoff Matrix for RPSLS](/public/payoff.png)
+![Mixed Strategy Nash Equilibrium](https://i.imgur.com/pJRqsh3.png)
 
-The optimal strategy for any player would be to randomize their moves with the following probabilities:
-
-- Rock: 20%
-- Paper: 20%
-- Scissors: 20%
-- Lizard: 20%
-- Spock: 20%
-# KlerosRPSLS
+The game operates on a randomized basis, distinguishing it from deterministic games like chess. In this game, players adopt a mixed strategy, where each move is chosen with an equal probability of 20%. Unlike deterministic games where players can influence their opponents by changing strategies, the randomness in this game ensures that each move has an equal likelihood of being chosen. This introduces an element of unpredictability and chance, making strategic decision-making crucial while embracing the inherent uncertainty of the game.
